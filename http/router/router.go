@@ -1,12 +1,14 @@
 package http
 
 import (
-	http "AcademyManagement/http/dummy"
+	"Duna/database/repositories"
+	http "Duna/http/dummy"
 	"github.com/gin-gonic/gin"
 )
 
-func Router() *gin.Engine {
+func NewRouter(repositories *repositories.Repositories) *gin.Engine {
 	router := gin.Default()
-	http.RegisterDummyRoutes(router)
+	http.RegisterDummyRoutes(router, repositories)
+	//... Register your groups
 	return router
 }

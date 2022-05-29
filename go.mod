@@ -1,4 +1,4 @@
-module AcademyManagement
+module Duna
 
 go 1.18
 
