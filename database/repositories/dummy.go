@@ -1,19 +1,24 @@
 package repositories
 
 import (
-	"Duna/database/models"
-	"Duna/database/repositories/errors"
+	"Duna/app/models"
 	"gorm.io/gorm"
 )
 
-type DummyRepository struct {
-	Db *gorm.DB
+type DatabaseDummyRepository struct {
+	db *gorm.DB
 }
 
-func (r DummyRepository) Create(d *models.Dummy) (*models.Dummy, error) {
-	result := r.Db.Create(d)
-	if result.Error != nil {
-		return nil, &errors.CreateDummyError{Err: result.Error}
-	}
-	return d, nil
+func (r DatabaseDummyRepository) GetById(id uint) (*models.Dummy, error) {
+	dummy := &models.Dummy{ID: id}
+	var result *models.Dummy
+
+	r.db.Model(dummy).First(&result)
+
+	return result, nil
+}
+
+func (r DatabaseDummyRepository) Create(dummy *models.Dummy) error {
+	err := r.db.Create(dummy)
+	return err.Error
 }

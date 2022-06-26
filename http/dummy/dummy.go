@@ -1,11 +1,12 @@
 package http
 
 import (
-	"Duna/app/use-cases/dummy"
-	"Duna/database/models"
+	"Duna/app/services/dummy"
 	"Duna/database/repositories"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 func RegisterDummyRoutes(router *gin.Engine, repositories *repositories.Repositories) {
@@ -21,7 +22,7 @@ func RegisterDummyRoutes(router *gin.Engine, repositories *repositories.Reposito
 			}
 
 			uc := dummy.CreateDummy{
-				DummyRepository: repositories.DummyRepository,
+				DummyRepository: repositories.Dummy,
 			}
 
 			err := uc.Exec(params)
@@ -32,8 +33,25 @@ func RegisterDummyRoutes(router *gin.Engine, repositories *repositories.Reposito
 			}
 		})
 
-		group.GET("/", func(c *gin.Context) {
-			c.JSON(200, models.Dummy{Email: "abc@gmail.com", Name: "xD"})
+		group.GET("/:id", func(c *gin.Context) {
+			id, err := strconv.ParseUint(c.Param("id"), 10, 64)
+
+			if err != nil {
+				c.JSON(http.StatusBadRequest, fmt.Sprintf("Bad id: %d", id))
+				return
+			}
+
+			params := dummy.GetDummyParams{Id: uint(id)}
+			uc := dummy.GetDummy{DummyRepository: repositories.Dummy}
+
+			d, e := uc.Exec(params)
+
+			if e != nil {
+				c.JSON(http.StatusInternalServerError, e)
+				return
+			}
+
+			c.JSON(200, gin.H{"dummy": d})
 		})
 	}
 }

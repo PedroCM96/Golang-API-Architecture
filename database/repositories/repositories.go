@@ -1,15 +1,17 @@
 package repositories
 
-import "gorm.io/gorm"
+import (
+	"Duna/app/repositories"
+	"gorm.io/gorm"
+)
 
 type Repositories struct {
-	DummyRepository *DummyRepository
+	Dummy repositories.DummyRepository
 }
 
 func GetRepositories(db *gorm.DB) *Repositories {
-	repositories := new(Repositories)
-	// Add your repositories here
-	dummy := &DummyRepository{Db: db}
-	repositories.DummyRepository = dummy
-	return repositories
+	return &Repositories{
+		Dummy: DatabaseDummyRepository{db},
+		// ... Add repositories
+	}
 }

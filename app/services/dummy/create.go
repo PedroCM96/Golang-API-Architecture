@@ -1,8 +1,8 @@
 package dummy
 
 import (
-	"Duna/database/models"
-	"Duna/database/repositories"
+	"Duna/app/models"
+	"Duna/app/repositories"
 )
 
 type CreateDummyParams struct {
@@ -11,16 +11,12 @@ type CreateDummyParams struct {
 }
 
 type CreateDummy struct {
-	DummyRepository *repositories.DummyRepository
+	DummyRepository repositories.DummyRepository
 }
 
 func (c CreateDummy) Exec(p CreateDummyParams) error {
-	d, vErr := models.NewDummy(p.Name, p.Email)
+	d, _ := models.NewDummy(p.Name, p.Email)
 
-	if vErr != nil {
-		return vErr
-	}
-
-	_, err := c.DummyRepository.Create(d)
+	err := c.DummyRepository.Create(d)
 	return err
 }

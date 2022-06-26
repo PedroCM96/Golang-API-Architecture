@@ -7,7 +7,7 @@ type Migrations struct {
 func NewMigrations() *Migrations {
 	m := make(map[uint]Migration)
 	m[0] = AddDummyTable{}
-	//... Register migrations
+	// ... Register migrations
 
 	return &Migrations{orderedMigrations: m}
 }

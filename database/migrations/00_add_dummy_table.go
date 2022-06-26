@@ -1,7 +1,7 @@
 package migrations
 
 import (
-	"Duna/database/models"
+	"Duna/app/models"
 	"gorm.io/gorm"
 )
 

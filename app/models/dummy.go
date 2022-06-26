@@ -1,7 +1,6 @@
 package models
 
 import (
-	"github.com/go-playground/validator/v10"
 	"gorm.io/gorm"
 	"time"
 )
@@ -15,13 +14,11 @@ type Dummy struct {
 	DeletedAt gorm.DeletedAt
 }
 
-func NewDummy(name string, email string) (*Dummy, error) {
-	d := Dummy{Name: name, Email: email}
-	err := validator.New().Struct(d)
-
-	if err != nil {
-		return nil, err
+func NewDummy(name string, email string) (*Dummy, *Dummy) {
+	dummy := Dummy{
+		Name:  name,
+		Email: email,
 	}
 
-	return &d, nil
+	return &dummy, nil
 }

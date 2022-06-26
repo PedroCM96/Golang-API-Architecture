@@ -9,6 +9,6 @@ import (
 func NewRouter(repositories *repositories.Repositories) *gin.Engine {
 	router := gin.Default()
 	http.RegisterDummyRoutes(router, repositories)
-	//... Register your groups
+	// ... Register your groups
 	return router
 }
